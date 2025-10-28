@@ -1,0 +1,446 @@
+[
+  {
+    "id": 1,
+    "name": "Safaricom PLC",
+    "phone": "+254 722 003272",
+    "email": "customercare@safaricom.co.ke",
+    "website": "https://www.safaricom.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 1,160",
+      ".or.ke": "KSh 1,160",
+      ".ac.ke": "KSh 1,160",
+      ".sc.ke": "KSh 1,160",
+      ".me.ke": "KSh 1,160",
+      ".go.ke": "KSh 1,160",
+      ".ne.ke": "KSh 1,160"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Kenya Web Experts",
+    "phone": "+254 720 727 460",
+    "email": "support@kenyawebexperts.com",
+    "website": "https://www.kenyawebexperts.com/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 999",
+      ".or.ke": "KSh 999",
+      ".ac.ke": "KSh 999",
+      ".sc.ke": "KSh 999",
+      ".me.ke": "KSh 999",
+      ".go.ke": "KSh 999",
+      ".ne.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Truehost Cloud",
+    "phone": "+254 727 503 500",
+    "email": "hello@truehost.cloud",
+    "website": "https://truehost.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 599",
+      ".or.ke": "KSh 599",
+      ".ac.ke": "KSh 599",
+      ".sc.ke": "KSh 599",
+      ".me.ke": "KSh 599",
+      ".go.ke": "KSh 599",
+      ".ne.ke": "KSh 599"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Sasahost Limited",
+    "phone": "+254 700 727 703",
+    "email": "support@sasahost.co.ke",
+    "website": "https://www.sasahost.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 999",
+      ".or.ke": "KSh 999",
+      ".ac.ke": "KSh 999",
+      ".sc.ke": "KSh 999",
+      ".me.ke": "KSh 999",
+      ".go.ke": "KSh 999",
+      ".ne.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 5,
+    "name": "HostPinnacle Kenya",
+    "phone": "+254 700 727 704",
+    "email": "support@hostpinnacle.co.ke",
+    "website": "https://www.hostpinnacle.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 650",
+      ".or.ke": "KSh 650",
+      ".ac.ke": "KSh 650",
+      ".sc.ke": "KSh 650",
+      ".me.ke": "KSh 650",
+      ".go.ke": "KSh 650",
+      ".ne.ke": "KSh 650"
+    }
+  },
+  {
+    "id": 6,
+    "name": "EAC Directory",
+    "phone": "+254 20 445 1234",
+    "email": "info@eacdirectory.co.ke",
+    "website": "https://www.eacdirectory.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 999",
+      ".or.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Lenasi Cloud Hosting",
+    "phone": "+254 729 727 705",
+    "email": "support@lenasi.co.ke",
+    "website": "https://www.lenasi.co.ke/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 8,
+    "name": "Hostnali Limited",
+    "phone": "+254 728 888 000",
+    "email": "support@hostnali.co.ke",
+    "website": "https://www.hostnali.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 9,
+    "name": "Webhost Kenya",
+    "phone": "+254 710 123 456",
+    "email": "support@webhostkenya.co.ke",
+    "website": "https://www.webhostkenya.co.ke/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 10,
+    "name": "Nairobihost",
+    "phone": "+254 799 888 777",
+    "email": "info@nairobihost.com",
+    "website": "https://nairobihost.com",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 950",
+      ".or.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 11,
+    "name": "Lexsynergy Limited",
+    "phone": "+44 208 133 1319",
+    "email": "support@lexsynergy.com",
+    "website": "https://www.lexsynergy.com/",
+    "domains": [],
+    "prices": {}
+  },
+  {
+    "id": 12,
+    "name": "DeepAfrica",
+    "phone": "+254 709 090000",
+    "email": "support@deepafrica.com",
+    "website": "https://deepafrica.com/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 999",
+      ".or.ke": "KSh 999",
+      ".ac.ke": "KSh 999",
+      ".sc.ke": "KSh 999",
+      ".me.ke": "KSh 999",
+      ".go.ke": "KSh 999",
+      ".ne.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 13,
+    "name": "Global Internet Fortunes",
+    "phone": "+254 733 123 456",
+    "email": "info@giforts.com",
+    "website": "https://giforts.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 1,200",
+      ".or.ke": "KSh 1,200"
+    }
+  },
+  {
+    "id": 14,
+    "name": "Craft Silicon",
+    "phone": "+254 20 445 3000",
+    "email": "support@craftsilicon.com",
+    "website": "https://craftsilicon.com/",
+    "domains": [],
+    "prices": {}
+  },
+  {
+    "id": 15,
+    "name": "Smart Web Kenya",
+    "phone": "+254 720 000 111",
+    "email": "info@smartwebkenya.com",
+    "website": "https://smartwebkenya.com/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 900"
+    }
+  },
+  {
+    "id": 16,
+    "name": "Kenyaplex.com",
+    "phone": "+254 722 111 222",
+    "email": "info@kenyaplex.com",
+    "website": "https://www.kenyaplex.com/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 1,000"
+    }
+  },
+  {
+    "id": 17,
+    "name": "EACClouds",
+    "phone": "+254 733 222 333",
+    "email": "support@eacclouds.com",
+    "website": "https://eacclouds.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 18,
+    "name": "Skyhost Kenya",
+    "phone": "+254 710 111 444",
+    "email": "support@skyhostkenya.com",
+    "website": "https://skyhostkenya.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 899",
+      ".or.ke": "KSh 899"
+    }
+  },
+  {
+    "id": 19,
+    "name": "Hostafrica Kenya",
+    "phone": "+254 739 333 555",
+    "email": "support@hostafrica.ke",
+    "website": "https://www.hostafrica.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".sc.ke", ".me.ke", ".go.ke", ".ne.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850",
+      ".ac.ke": "KSh 850",
+      ".sc.ke": "KSh 850",
+      ".me.ke": "KSh 850",
+      ".go.ke": "KSh 850",
+      ".ne.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 20,
+    "name": "Tujengane Africa",
+    "phone": "+254 722 555 666",
+    "email": "support@tujenganeafrica.com",
+    "website": "https://tujenganeafrica.com/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Webhosters KE",
+    "phone": "+254 722 333 444",
+    "email": "support@webhosters.co.ke",
+    "website": "https://webhosters.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 22,
+    "name": "HostAfrica Ltd",
+    "phone": "+254 711 555 888",
+    "email": "sales@hostafrica.co.ke",
+    "website": "https://hostafrica.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850",
+      ".ac.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 23,
+    "name": "Webcom Kenya",
+    "phone": "+254 700 222 111",
+    "email": "info@webcomkenya.com",
+    "website": "https://webcomkenya.com/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke", ".me.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850",
+      ".ac.ke": "KSh 850",
+      ".me.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Kenya Hosting",
+    "phone": "+254 799 111 000",
+    "email": "support@kenyahosting.co.ke",
+    "website": "https://kenyahosting.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 950",
+      ".or.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 25,
+    "name": "Mambo Microsystems",
+    "phone": "+254 722 888 777",
+    "email": "info@mambo.co.ke",
+    "website": "https://mambo.co.ke/",
+    "domains": [".co.ke", ".or.ke", ".ac.ke"],
+    "prices": {
+      ".co.ke": "KSh 899",
+      ".or.ke": "KSh 899",
+      ".ac.ke": "KSh 899"
+    }
+  },
+  {
+    "id": 26,
+    "name": "Tafuta Host",
+    "phone": "+254 733 000 222",
+    "email": "support@tafutahost.com",
+    "website": "https://tafutahost.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 27,
+    "name": "Peak and Dale Solutions",
+    "phone": "+254 722 444 333",
+    "email": "support@peakanddale.com",
+    "website": "https://peakanddale.com/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 28,
+    "name": "HostKenya",
+    "phone": "+254 700 999 888",
+    "email": "info@hostkenya.co.ke",
+    "website": "https://hostkenya.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 29,
+    "name": "Digital Web Solutions",
+    "phone": "+254 733 777 666",
+    "email": "info@digitalwebsolutions.co.ke",
+    "website": "https://digitalwebsolutions.co.ke/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 899"
+    }
+  },
+  {
+    "id": 30,
+    "name": "HostCenter Kenya",
+    "phone": "+254 722 666 555",
+    "email": "support@hostcenter.co.ke",
+    "website": "https://hostcenter.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 31,
+    "name": "Webspace Africa",
+    "phone": "+254 799 222 333",
+    "email": "info@webspaceafrica.com",
+    "website": "https://webspaceafrica.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 950",
+      ".or.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 32,
+    "name": "GalaxyHost Kenya",
+    "phone": "+254 722 999 111",
+    "email": "support@galaxyhost.co.ke",
+    "website": "https://galaxyhost.co.ke/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 999"
+    }
+  },
+  {
+    "id": 33,
+    "name": "Inet Solutions",
+    "phone": "+254 733 123 789",
+    "email": "info@inetsolutions.co.ke",
+    "website": "https://inetsolutions.co.ke/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 850",
+      ".or.ke": "KSh 850"
+    }
+  },
+  {
+    "id": 34,
+    "name": "Kenya Web",
+    "phone": "+254 722 333 666",
+    "email": "support@kenyaweb.com",
+    "website": "https://kenyaweb.com/",
+    "domains": [".co.ke"],
+    "prices": {
+      ".co.ke": "KSh 950"
+    }
+  },
+  {
+    "id": 35,
+    "name": "Skyhost Africa",
+    "phone": "+254 733 999 000",
+    "email": "info@skyhostafrica.com",
+    "website": "https://skyhostafrica.com/",
+    "domains": [".co.ke", ".or.ke"],
+    "prices": {
+      ".co.ke": "KSh 899",
+      ".or.ke": "KSh 899"
+    }
+  }
+]

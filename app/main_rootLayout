@@ -1,0 +1,43 @@
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import "react-native-reanimated";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { ActivityIndicator, View } from "react-native";
+import { AuthProvider, useAuth } from "@/context/authcontext";
+
+export const unstable_settings = {
+  anchor: "(tabs)",
+};
+
+function AppRoutes() {
+  const { initializing, user } = useAuth();
+
+  if (initializing) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      {user ? <Stack.Screen name="(tabs)" /> : <Stack.Screen name="(auth)" />}
+      <Stack.Screen name="modal" options={{ presentation: "modal", title: "Modal" }} />
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <AuthProvider>
+        <AppRoutes />
+        <StatusBar style="auto" />
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}

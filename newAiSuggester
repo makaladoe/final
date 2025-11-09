@@ -1,0 +1,420 @@
+// app/aiSuggester.tsx
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+  ScrollView,
+  Animated,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import theme from "../app/theme";
+
+// Enable LayoutAnimation safely
+try {
+  if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+} catch {
+  // noop
+}
+
+
+
+const categories = {
+  Company: ".co.ke",
+  Organization: ".or.ke",
+  Network: ".ne.ke",
+  Personal: ".me.ke",
+  Mobile: ".mobi.ke",
+  Information: ".info.ke",
+  Schools: ".sc.ke",
+  Universities: ".ac.ke",
+  General: ".ke",
+} as const;
+
+type CategoryKey = keyof typeof categories;
+
+const guidelines: Record<CategoryKey, string> = {
+  Company: "Describe your company — what it does and where it’s based.",
+  Organization: "Share your organization’s purpose or focus.",
+  Network: "What kind of network or group are you building?",
+  Personal: "Tell me about your personal brand or portfolio.",
+  Mobile: "What’s your mobile service or app about?",
+  Information: "What information or content will you provide?",
+  Schools: "What’s your school’s name and level?",
+  Universities: "Describe your university or area of study.",
+  General: "Give a short overview of your project or idea.",
+};
+
+const MAX_CHARS = 300;
+
+const AiSuggester: React.FC = () => {
+  const [topic, setTopic] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | "">("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // animations
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(12)).current;
+
+  useEffect(() => {
+    // animate reveal/hide of input area
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: selectedCategory ? 1 : 0,
+        duration: 260,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: selectedCategory ? 0 : 12,
+        duration: 260,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [selectedCategory, fadeAnim, slideAnim]);
+
+  const handleSuggest = async () => {
+    if (!topic.trim() || !selectedCategory) {
+      setError("Please describe your idea and select a category.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    // keep old suggestions until new arrive? we clear for clarity
+    setSuggestions([]);
+
+    try {
+      const response = await fetch("https://aibackend1-jvfl.onrender.com/suggest-domains", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic,
+          category: selectedCategory.toLowerCase(),
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) setSuggestions(data.suggestions || []);
+      else setError(data.error || "Something went wrong.");
+    } catch (err) {
+      console.log(err);
+      setError("Network error. Check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClear = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setTopic("");
+    setSuggestions([]);
+    setSelectedCategory("");
+    setError("");
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      {/* compact category card with title + horizontal pills */}
+      <View style={styles.categoryContainer}>
+        <View style={styles.categoryHeaderRow}>
+          <Text style={styles.categoryHeader}>Select your domain category</Text>
+          {/* optional quick helper */}
+          <Text style={styles.categorySub}>Tap to choose — swipe left/right</Text>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.horizontalList}
+        >
+          {Object.entries(categories).map(([name, domain]) => {
+            const isSelected = selectedCategory === name;
+            return (
+              <TouchableOpacity
+                key={name}
+                style={[styles.categoryPill, isSelected && styles.categoryPillSelected]}
+                onPress={() => {
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                  setSelectedCategory(name as CategoryKey);
+                  setError("");
+                }}
+                activeOpacity={0.86}
+              >
+                <Text style={[styles.categoryText, isSelected && styles.categoryTextSelected]}>
+                  {name}
+                </Text>
+                <Text style={[styles.domainText, isSelected && styles.domainTextSelected]}>
+                  {domain}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      {/* animated input / actions */}
+      <Animated.View
+        style={[
+          styles.animatedArea,
+          { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
+        ]}
+      >
+        {selectedCategory ? (
+          <>
+            {/* guidance as subtitle above input */}
+            <Text style={styles.guidanceText}>{guidelines[selectedCategory]}</Text>
+
+            <View style={styles.inputWrapper}>
+              <TextInput
+                style={styles.input}
+                placeholder={guidelines[selectedCategory]}
+                placeholderTextColor={theme.colors.gray500}
+                value={topic}
+                onChangeText={(text) => {
+                  if (text.length <= MAX_CHARS) setTopic(text);
+                }}
+                multiline
+                accessible
+                accessibilityLabel="Describe your idea"
+              />
+
+              {/* send / loading */}
+              <TouchableOpacity
+                style={[styles.sendButton, loading && { backgroundColor: theme.colors.gray400 }]}
+                onPress={handleSuggest}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator size="small" color={theme.colors.white} />
+                ) : (
+                  <Ionicons name="send" size={18} color={theme.colors.white} />
+                )}
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.rowBetween}>
+              <Text style={styles.helperHint}>Max {MAX_CHARS} characters — keep it concise.</Text>
+
+              {/* clear button (shows only when there is anything to clear) */}
+              {(topic.length > 0 || suggestions.length > 0 || selectedCategory) && (
+                <TouchableOpacity style={styles.clearButton} onPress={handleClear} activeOpacity={0.8}>
+                  <Ionicons name="refresh-outline" size={16} color={theme.colors.gray700} />
+                  <Text style={styles.clearText}>  Clear</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            <Text style={styles.charCount}>{`${topic.length} / ${MAX_CHARS}`}</Text>
+          </>
+        ) : (
+          <Text style={styles.helperNote}>Select a category above to begin.</Text>
+        )}
+      </Animated.View>
+
+      {loading && (
+        <ActivityIndicator size="large" color={theme.colors.primary} style={{ marginTop: 18 }} />
+      )}
+
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
+      {/* results */}
+      {suggestions.length > 0 && (
+        <View style={styles.results}>
+          <Text style={styles.sectionTitle}>Suggested Domains</Text>
+          {suggestions.map((s, i) => (
+            <View key={i} style={styles.card}>
+              <Text style={styles.suggestion}>{s}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </ScrollView>
+  );
+};
+
+export default AiSuggester;
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: theme.colors.light,
+    paddingHorizontal: 18,
+    paddingBottom: 40,
+    paddingTop: 6,
+  },
+  categoryContainer: {
+    backgroundColor: theme.colors.white,
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    shadowColor: theme.colors.black,
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 12,
+  },
+  categoryHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  categoryHeader: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: theme.colors.dark,
+  },
+  categorySub: {
+    fontSize: 12,
+    color: theme.colors.gray600,
+  },
+  horizontalList: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 8,
+  },
+  categoryPill: {
+    backgroundColor: theme.colors.white,
+    borderWidth: 1,
+    borderColor: theme.colors.gray300,
+    borderRadius: 32,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 1,
+  },
+  categoryPillSelected: {
+    backgroundColor: theme.colors.secondary,
+    borderColor: theme.colors.secondary,
+  },
+  categoryText: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.dark,
+  },
+  categoryTextSelected: {
+    color: theme.colors.white,
+  },
+  domainText: {
+    fontSize: 11,
+    color: theme.colors.gray600,
+  },
+  domainTextSelected: {
+    color: theme.colors.white,
+  },
+  animatedArea: {
+    width: "100%",
+    marginTop: 10,
+  },
+  guidanceText: {
+    color: theme.colors.gray700,
+    fontSize: 13.5,
+    marginBottom: 8,
+  },
+  inputWrapper: {
+    position: "relative",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: theme.colors.gray300,
+    borderRadius: 14,
+    padding: 14,
+    fontSize: 15,
+    backgroundColor: theme.colors.white,
+    color: theme.colors.dark,
+    minHeight: 110,
+    textAlignVertical: "top",
+    paddingRight: 64,
+  },
+  sendButton: {
+    position: "absolute",
+    right: 10,
+    bottom: 10,
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    elevation: 2,
+  },
+  sendText: {
+    color: theme.colors.white,
+    fontWeight: "700",
+    fontSize: 15,
+  },
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  helperHint: {
+    color: theme.colors.gray600,
+    fontSize: 12.5,
+  },
+  clearButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.colors.gray100,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+  },
+  clearText: {
+    color: theme.colors.gray700,
+    fontWeight: "600",
+    fontSize: 13,
+  },
+  charCount: {
+    textAlign: "right",
+    fontSize: 13,
+    color: theme.colors.gray600,
+    marginTop: 6,
+  },
+  helperNote: {
+    color: theme.colors.gray600,
+    marginTop: 10,
+    fontSize: 14,
+    textAlign: "center",
+  },
+  error: {
+    color: theme.colors.error,
+    textAlign: "center",
+    marginTop: 12,
+  },
+  results: {
+    marginTop: 18,
+  },
+  card: {
+    backgroundColor: theme.colors.white,
+    borderRadius: 12,
+    padding: 12,
+    marginVertical: 6,
+    shadowColor: theme.colors.black,
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  suggestion: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: theme.colors.dark,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.dark,
+    marginBottom: 8,
+  },
+});

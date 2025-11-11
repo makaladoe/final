@@ -1,0 +1,222 @@
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+export default function ShopScreen() {
+  const router = useRouter();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+
+  // Layout constants
+  const H_PADDING = 20;
+  const GAP = 16;
+  const HERO_HEIGHT = Math.round(windowHeight * 0.4);
+
+  const CARD_WIDTH = (windowWidth - H_PADDING * 2 - GAP) / 2;
+  const CARD_HEIGHT = CARD_WIDTH * 1.05;
+
+  const images = [
+    require("../../assets/images/img1.jpg"),
+    require("../../assets/images/hood.jpg"),
+    require("../../assets/images/img2.jpg"),
+    require("../../assets/images/jacket.jpg"),
+    require("../../assets/images/img3.jpg"),
+    require("../../assets/images/shirt1.jpg"),
+    require("../../assets/images/offer.jpg"),
+  ];
+
+  const logo = require("../../assets/images/logo.jpg");
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const iv = setInterval(() => setCurrentIndex((p) => (p + 1) % images.length), 3000);
+    return () => clearInterval(iv);
+  }, [images.length]);
+
+  // ✅ Services (AI and Support removed)
+  const services = [
+    {
+      id: "booking",
+      title: "Reserve A Domain",
+      image: logo,
+      route: "/bookDomain",
+      bg: "#ffffff",
+      tint: "#007bff",
+      icon: "globe-outline",
+    },
+    {
+      id: "offers",
+      title: "Offers",
+      image: images[0],
+      route: "/offers",
+      bg: "#ffffff",
+      tint: "#0f766e",
+      icon: "gift-outline",
+    },
+  ];
+
+  return (
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{
+        paddingHorizontal: H_PADDING,
+        paddingTop: 40,
+        paddingBottom: 60,
+      }}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* HERO SECTION */}
+      <View style={[styles.hero, { height: HERO_HEIGHT }]}>
+        <Image
+          source={images[currentIndex]}
+          style={styles.heroImage}
+          resizeMode="cover"
+        />
+        <View style={styles.heroOverlay}>
+          <Text style={styles.heroText}>Latest Offers</Text>
+          <Text style={styles.heroSub}>Exclusive domain deals</Text>
+        </View>
+      </View>
+
+      <View style={{ height: 28 }} />
+
+      {/* SERVICE GRID */}
+      <View style={styles.grid}>
+        {services.map((s) => (
+          <TouchableOpacity
+            key={s.id}
+            style={[
+              styles.card,
+              {
+                backgroundColor: s.bg,
+                width: CARD_WIDTH,
+                height: CARD_HEIGHT,
+              },
+            ]}
+            activeOpacity={0.95}
+            onPress={() => (s.route ? router.push(s.route as any) : Alert.alert(s.title))}
+          >
+            {/* Top image or icon */}
+            <View style={styles.cardTop}>
+              {s.image ? (
+                <Image source={s.image} style={styles.cardImage} resizeMode="contain" />
+              ) : (
+                <View style={[styles.iconContainer, { backgroundColor: `${s.tint}15` }]}>
+                  <Ionicons name={s.icon as any} size={36} color={s.tint} />
+                </View>
+              )}
+            </View>
+
+            {/* Text */}
+            <View style={styles.cardBody}>
+              <Text style={styles.cardTitle}>{s.title}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </ScrollView>
+  );
+}
+
+// ================= STYLES ==================
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f8f9fb",
+  },
+
+  // HERO SECTION
+  hero: {
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+    backgroundColor: "#ccc",
+    position: "relative",
+  },
+  heroImage: {
+    width: "100%",
+    height: "100%",
+  },
+  heroOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    width: "100%",
+  },
+  heroText: {
+    color: "#fff",
+    fontWeight: "800",
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  heroSub: {
+    color: "#f1f5f9",
+    fontSize: 13,
+  },
+
+  // GRID
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+
+  // CARD
+  card: {
+    borderRadius: 16,
+    marginBottom: 18,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  cardTop: {
+    flex: 1.2,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 12,
+  },
+
+  cardImage: {
+    width: "70%",
+    height: "70%",
+    borderRadius: 10,
+  },
+
+  iconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  cardBody: {
+    paddingVertical: 10,
+  },
+  cardTitle: {
+    fontSize: 15.5,
+    fontWeight: "700",
+    textAlign: "center",
+    color: "#111827",
+  },
+});

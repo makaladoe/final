@@ -1,0 +1,140 @@
+// app/_layout.tsx
+
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, View } from "react-native";
+
+import { Stack, router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import Constants from "expo-constants";
+
+import {
+  ThemeProvider,
+  DarkTheme,
+  DefaultTheme,
+} from "@react-navigation/native";
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import useConnectionStatus from "./hooks/useConnectionStatus";
+
+import { AuthProvider, useAuth } from "@/context/authcontext";
+import { CartProvider } from "@/context/cartContext";
+import { NotificationProvider } from "@/context/notificationContext";
+
+import ConnectionToast from "@/components/connectionToast";
+import DotsLoader from "@/components/activityIndicatorA";
+
+// ---------------------------------------------------------
+// APP NAVIGATION LOGIC (SINGLE-SHOT, NO FLICKER)
+// ---------------------------------------------------------
+function AppNavigator() {
+  const { ready, hasSeenWelcome, isAuthenticated, justSignedIn } = useAuth();
+  const hasRouted = useRef(false); // 🔒 routing lock
+
+  useEffect(() => {
+    if (!ready || hasRouted.current) return;
+
+    hasRouted.current = true;
+
+    if (!hasSeenWelcome) {
+      router.replace("/(welcome)");
+      return;
+    }
+
+    if (!isAuthenticated) {
+      router.replace("/(auth)/signin");
+      return;
+    }
+
+    if (justSignedIn) {
+      router.replace("/(tabs)");
+      return;
+    }
+
+    router.replace("/welcomeBack");
+  }, [ready, hasSeenWelcome, isAuthenticated, justSignedIn]);
+
+  return null;
+}
+
+// ---------------------------------------------------------
+// AUTH GATE (BLOCK UI UNTIL AUTH IS READY)
+// ---------------------------------------------------------
+function AuthGate() {
+  const { ready } = useAuth();
+
+  if (!ready) {
+    return (
+      <View style={styles.loaderContainer}>
+        <DotsLoader />
+      </View>
+    );
+  }
+
+  return <AppNavigator />;
+}
+
+// ---------------------------------------------------------
+// ROOT LAYOUT
+// ---------------------------------------------------------
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const isConnected = useConnectionStatus();
+
+  // Keep backend services warm (non-blocking)
+  useEffect(() => {
+    const STK_BASE_URL = Constants.expoConfig?.extra?.STK_BASE_URL ?? "";
+    const AI_SUGGEST_API = Constants.expoConfig?.extra?.AI_SUGGEST_API ?? "";
+    const AI_BASE_URL = AI_SUGGEST_API.split("/")[0];
+
+    const ping = () => {
+      if (STK_BASE_URL) fetch(STK_BASE_URL).catch(() => {});
+      if (AI_BASE_URL) fetch(AI_BASE_URL).catch(() => {});
+    };
+
+    ping();
+    const interval = setInterval(ping, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+          <AuthProvider>
+            <CartProvider>
+              <NotificationProvider>
+                <ConnectionToast isConnected={isConnected} />
+
+                {/* 🔒 Auth decision happens BEFORE navigation mounts */}
+                <AuthGate />
+
+                <Stack screenOptions={{ headerShown: false }} />
+
+                <StatusBar style="auto" />
+              </NotificationProvider>
+            </CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
+  );
+}
+
+// ---------------------------------------------------------
+// STYLES
+// ---------------------------------------------------------
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+  loaderContainer: {
+    flex: 1,
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
